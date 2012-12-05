@@ -30,6 +30,25 @@ class UsersController < ApplicationController
   def index
     @users = User.paginate(page: params[:page]) 
   end
+  def fb
+    @auth_object = request.env['omniauth.auth']['extra']['raw_info']
+    if @user_good = User.find_by_email(@auth_object['email'])
+      #DO SOMETHING NICE
+      sign_in @user_good
+      redirect_to @user_good
+    else
+      @user = User.new(:name => @auth_object['name'], :email => @auth_object['email'], :password => "foobar", :password_confirmation => "foobar")
+      if @user.save
+        flash[:success] = "Signed in successfully through FB"
+        redirect_to @user
+        sign_in @user
+      else
+        render 'new'
+      end
+    end
+
+  end
+
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(params[:user])

@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
 	def new
 	end
 	def create
-    render :text => request.env['rack.auth'].inspect
+    
     user = User.find_by_email(params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
       sign_in user
@@ -18,4 +18,10 @@ class SessionsController < ApplicationController
 		redirect_to root_path
 
 	end
+  def fb
+    #render :text => request.env['omniauth.auth'].inspect
+    @object = request.env['omniauth.auth']
+
+
+  end
 end

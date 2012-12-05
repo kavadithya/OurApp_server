@@ -3,7 +3,11 @@ Ashwin::Application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   root to: "static_pages#home"
   resources :oauth_consumers
-  match '/callback_oauth_consumer', to: "static_pages#contact"
+  match '/callback_oauth_consumer', to: "static_pages#contact" ##for the google thing
+
+  match '/auth/:provider/callback', to: "users#fb"
+
+
   match '/signup', to: "users#new"
   match '/signin', to: "sessions#new"
   match '/signout', to: "sessions#destroy", via: :delete
