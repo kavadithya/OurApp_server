@@ -2,7 +2,8 @@ Ashwin::Application.routes.draw do
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   root to: "static_pages#home"
-
+  resources :oauth_consumers
+  match '/callback_oauth_consumer', to: "static_pages#contact"
   match '/signup', to: "users#new"
   match '/signin', to: "sessions#new"
   match '/signout', to: "sessions#destroy", via: :delete

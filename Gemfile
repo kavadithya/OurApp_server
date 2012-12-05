@@ -7,6 +7,8 @@ gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.6'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'oauth', '0.4.7'
+gem 'oauth-plugin', '0.4.1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
