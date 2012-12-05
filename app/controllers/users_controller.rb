@@ -2,6 +2,7 @@ class UsersController < ApplicationController
 #  before_filter :signed_in_user, only: [:edit, :update]
  # before_filter :correct_user,   only: [:edit, :update]
   #before_filter :admin_user,     only: :destroy
+  respond_to :html, :xml, :json 
   def new
   	@user = User.new
   end
@@ -14,13 +15,19 @@ class UsersController < ApplicationController
     end
   end
   def create
-    @user = User.new(params[:user])
-    if @user.save
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
-      sign_in @user
+    @user = User.new
+    if params[:user]
+      @user.attributes = params[:user]
     else
-      render 'new'
+      @user.attributes = ActiveSupport::JSON.decode(request.body)
+    end
+    
+    if @user.save
+      respond_to do |format|
+        format.html { redirect_to @user }
+        format.json { render :json => @user, :status => :created, :location => @user}
+        format.xml { render :xml => @user }
+      end
     end
   end
 
